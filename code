@@ -1,0 +1,119 @@
+from tkinter import *
+from tkinter import messagebox
+import random
+import math
+
+# ---------------------------- PASSWORD GENERATOR ------------------------------- #
+def password_generate():
+    # list_passsword=[]
+    password_string=""
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '@', '#', "$", '%', '^', '&', '*', '+']
+    Letters=['A','B','C','D','E','F','G','H','I','J','K','L']
+
+    l1=random.choice(letters)
+    password_string+=l1
+
+    l2=random.choice(letters)
+    password_string+=l2
+    n1=random.choice(numbers)
+    password_string+=n1
+    n2=random.choice(numbers)
+    password_string+=n2
+    s1=random.choice(symbols)
+    password_string+=s1
+    s2=random.choice(symbols)
+    password_string+=s2
+    L1=random.choice(Letters)
+    password_string+=L1
+    L2=random.choice(Letters)
+    password_string+=L2
+    password_string1=list(password_string)
+    # print(password_string1)
+
+    random.shuffle(password_string1)
+    password_string3=""
+    for item in password_string1:
+        password_string3+=item
+    password_entry.insert(0,password_string3)
+    password_entry["show"]=""
+    # print("Test123")
+    # password_entry = Entry(width=21)
+    # # password_entry.configure(text=f"{password_string3}")
+    # password_entry.grid(column=1, row=3, sticky='we')
+    # print("test")
+    # password_entry["show"]=f"{password_string3} "
+    # # print(password_string3)
+    # messagebox.showinfo(title="Password", message=password_string3)
+# ---------------------------- SAVE PASSWORD ------------------------------- #
+"""getting hold of the entities"""
+
+
+def getting():
+    website_info = website_entry.get()
+    email_info = email_entry.get()
+    password_info = password_entry.get()
+    if  len(website_info)== 0 or len(password_info) == 0:
+        messagebox.showinfo("Warning","Please dont leave any blanks empty")
+    else:
+      is_ok = messagebox.askokcancel(title=f"{website_info}", message=f"Please confirm the details entered:\n\n"
+                                                                    f"Email: {email_info}\nPassword: {password_info}\n")
+
+      if is_ok:
+        with open("file.txt", "a") as file:
+            file.write(f"{website_info} | {email_info} | {password_info}\n")
+            website_entry.delete(0, END)
+            # email_entry.delete(0,END)
+            password_entry.delete(0, END)
+
+    """functions for please dont leave any fields empty"""
+
+
+    """functioning message box"""
+
+    password_entry.delete(0, END)
+    website_entry.delete(0, END)
+    website_entry.focus()
+
+    """dialog box"""
+    # messagebox.showinfo(title="Warning",message="EroRRor!!")
+    # messagebox.askokcancel(title="information",message=website_info)
+    # messagebox.askyesno("Dialogue Window","Select One")
+
+    # Message(window,"This is messgae")
+
+
+# ---------------------------- UI SETUP ------------------------------- #
+window = Tk()
+window.title("Password Manager")
+"""getting canvas and image on it"""
+canvas = Canvas(width=200, height=200)
+image1 = PhotoImage(file="logo.png")
+canvas.create_image(100, 100, image=image1)
+canvas.grid(column=1, row=0)
+"""getting labels"""
+website_label = Label(text="Website:")
+website_label.grid(column=0, row=1, sticky='w')
+email_label = Label(text="Email/Username:")
+email_label.grid(column=0, row=2, sticky='w')
+password_label = Label(text="Password:")
+password_label.grid(column=0, row=3, sticky='w')
+
+"""getting entry"""
+website_entry = Entry(width=36)
+website_entry.grid(column=1, row=1, columnspan=2, sticky='we')
+website_entry.focus()
+email_entry = Entry(width=36)
+email_entry.grid(column=1, row=2, columnspan=2, sticky='we')
+email_entry.insert(0, "saba3khan786@gmail.com")
+password_entry = Entry(show="*", width=21)
+password_entry.grid(column=1, row=3, sticky='we')
+
+"""buttons"""
+generate_password = Button(text="Generate Password",command=password_generate)
+generate_password.grid(column=2, row=3)
+add_button = Button(text="Add", width=40, command=getting)
+add_button.grid(column=1, row=4, columnspan=2)
+
+window.mainloop()
